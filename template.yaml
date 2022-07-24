@@ -204,11 +204,13 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
+          Description: Ingress internet port 80
         SecurityGroupEgress:
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
           CidrIp: 10.0.0.0/24
+          Description: Egress to EC2
         Tags:
           - Key: environment
             Value: sa-assignment
@@ -225,11 +227,19 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 10.0.1.0/24
+          Description: Ingress from ELB Subnet
         SecurityGroupEgress:
-        - IpProtocol: -1
-          FromPort: 0
-          ToPort: 0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
           CidrIp: 0.0.0.0/0
+          Description: Egress to internet
+        SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+          Description: Egress to internet port 443
         Tags:
           - Key: environment
             Value: sa-assignment
