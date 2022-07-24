@@ -21,7 +21,7 @@ Description: |
   Feel free to do that as soon as you have submitted
   your document and before your interview.
 
-  (mzuksb-1rpau5mhl) (version:20210713174618-856cd12)
+  (uksb-1rpau5mhl) (version:20210713174618-856cd12)
 
 Parameters:
 
@@ -71,7 +71,7 @@ Resources:
         CidrBlock: 10.0.1.0/24
         AvailabilityZone:
           Fn::Select:
-            - 1
+            - 0
             - Fn::GetAZs: !Ref AWS::Region
         MapPublicIpOnLaunch: true
         VpcId: !Ref 'SAVPC'
@@ -204,13 +204,13 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
-          Description: Ingress internet port 80
+          Description: Fix Ingress internet port 80
         SecurityGroupEgress:
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
           CidrIp: 10.0.0.0/24
-          Description: Egress to EC2
+          Description: Fix Egress to EC2 Subnet
         Tags:
           - Key: environment
             Value: sa-assignment
@@ -227,19 +227,21 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 10.0.1.0/24
-          Description: Ingress from ELB Subnet
+          Description: Fix Ingress from ELB Subnet
         SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 53
+          ToPort: 53
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: udp
+          FromPort: 53
+          ToPort: 53
+          CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
-          Description: Egress to internet
-        SecurityGroupEgress:
-        - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          CidrIp: 0.0.0.0/0
-          Description: Egress to internet port 443
+          Description: Fix Egress to internet
         Tags:
           - Key: environment
             Value: sa-assignment
